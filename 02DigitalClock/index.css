@@ -1,0 +1,22 @@
+body{
+    background-color: rgb(185, 57, 57);
+}
+
+.container{
+    display: flex;
+    position: relative;
+    gap: 5px;
+    width: 40vw;
+    height: 40vw;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+#hour, #minute, #second {
+    font-size: 5rem;
+}
+
+#milisecond{
+    font-size: 3rem;
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800">
+  
+  <!-- Navbar -->
+  <nav class="w-full bg-white shadow-md fixed top-0 left-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <img src="https://thumbs.dreamstime.com/b/creative-simple-dragons-silhouettes-logo-stylized-vector-illustrations-simple-dragons-silhouettes-logo-130475058.jpg" 
+             alt="Logo" class="h-10 w-auto">
+      </div>
+
+      <!-- Desktop Menu -->
+      <ul class="hidden md:flex space-x-8 font-medium">
+        <li><a href="#home" class="hover:text-blue-600">Home</a></li>
+        <li><a href="#about" class="hover:text-blue-600">About</a></li>
+        <li><a href="#skills" class="hover:text-blue-600">Skills</a></li>
+        <li><a href="#projects" class="hover:text-blue-600">Projects</a></li>
+        <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
+      </ul>
+
+      <!-- Mobile Button -->
+      <button id="menu-btn" class="md:hidden flex items-center px-3 py-2 border rounded text-blue-600 border-blue-600">
+      <img class="h-6 w-6" src="align-justified-svgrepo-com.svg" alt="menu">
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <ul id="mobile-menu" class="md:hidden px-4 pb-4 space-y-2 hidden font-medium bg-white shadow-md">
+      <li><a href="#home" class="block py-2 hover:text-blue-600">Home</a></li>
+      <li><a href="#about" class="block py-2 hover:text-blue-600">About</a></li>
+      <li><a href="#skills" class="block py-2 hover:text-blue-600">Skills</a></li>
+      <li><a href="#projects" class="block py-2 hover:text-blue-600">Projects</a></li>
+      <li><a href="#contact" class="block py-2 hover:text-blue-600">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- photo -->
+  <section id="home" class="pt-24 max-w-7xl mx-auto px-4 text-center">
+    <h1 class="text-4xl font-bold text-blue-600">Welcome to My Portfolio</h1>
+    <p class="mt-4 text-lg text-gray-600">I am a Web Developer passionate about building modern and responsive web apps.</p>
+    <img src="photomania-b1baa60c541bed4bc4e0347b74505616-removebg-preview.png" alt="Profile Picture" class="mx-auto mt-6 rounded-full shadow-lg w-{30px}  h-44 object-cover">
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="max-w-7xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-bold mb-4 text-blue-600">About Me</h2>
+    <p class="text-gray-700 leading-relaxed">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis excepturi iure dicta 
+      enim architecto sint eius earum deserunt officia itaque. Dolorem in laudantium velit magnam
+      rerum consequuntur enim sit quas quasi.
+    </p>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="bg-gray-100 py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl font-bold mb-6 text-blue-600">Skills</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 text-center">
+        <div class="p-4 bg-white rounded-lg shadow hover:shadow-md">HTML</div>
+        <div class="p-4 bg-white rounded-lg shadow hover:shadow-md">CSS</div>
+        <div class="p-4 bg-white rounded-lg shadow hover:shadow-md">JavaScript</div>
+        <div class="p-4 bg-white rounded-lg shadow hover:shadow-md">React</div>
+        <div class="p-4 bg-white rounded-lg shadow hover:shadow-md">Node.js</div>
+        <div class="p-4 bg-white rounded-lg shadow hover:shadow-md">Express</div>
+        <div class="p-4 bg-white rounded-lg shadow hover:shadow-md">MongoDB</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="max-w-7xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-bold mb-6 text-blue-600">Projects</h2>
+    <ul class="space-y-4">
+      <li class="p-4 bg-white rounded-lg shadow hover:shadow-md">Project 1</li>
+      <li class="p-4 bg-white rounded-lg shadow hover:shadow-md">Project 2</li>
+      <li class="p-4 bg-white rounded-lg shadow hover:shadow-md">Project 3</li>
+    </ul>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="bg-gray-100 py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl font-bold mb-6 text-blue-600">Contact Me</h2>
+      <form action="#" method="POST" class="space-y-4 max-w-lg mx-auto bg-white p-6 rounded-lg shadow">
+        <div>
+          <label 
+          for="name" 
+          class="block font-medium mb-1">Name:</label>
+          <input 
+          type="text" 
+          id="name" name="name" required 
+                 class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+        <div>
+          <label for="email" class="block font-medium mb-1">Email:</label>
+          <input type="email" id="email" name="email" required 
+                 class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+        <div>
+          <label for="message" class="block font-medium mb-1">Message:</label>
+          <textarea id="message" name="message" rows="4" required 
+                    class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+        </div>
+        <button type="submit" 
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          Send
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white py-6 mt-12 shadow-inner text-center text-gray-600">
+     My Portfolio | </footer>
+
+ <script src="index.js"></script>
+
+</body>
+</html>
