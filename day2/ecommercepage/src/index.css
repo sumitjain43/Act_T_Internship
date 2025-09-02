@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+body{
+    background-color: rgb(228, 228, 234);
+    color: black;
+    
+}
+
+/* Content container spacing below fixed header */
+.main-container {
+  padding-top: 5rem;
+}
+
+/* Card polish */
+.card-surface {
+  background: rgba(255,255,255,0.06);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
