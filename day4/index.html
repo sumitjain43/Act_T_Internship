@@ -11,8 +11,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E%E2%9C%9A%3C/text%3E%3C/svg%3E" />
   <script src="https://cdn.tailwindcss.com"></script>  
-  <!-- Load Three.js and OrbitControls (defer) -->
-<!-- Correct Three.js CDN -->
+
 <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
 <script src="https://unpkg.com/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
 
@@ -33,7 +32,7 @@
   </style>
 </head>
 <body class="bg-teal-50 text-slate-800">
-  <!-- Hero with Three.js Background -->
+
   <nav class="fixed top-0 left-0 right-0 z-30 shadow-md bg-teal-100 backdrop-blur-sm">
     <div class="mx-auto container-2xl px-4 py-4 flex items-center justify-between">
       <a href="#" class="text-xl font-extrabold flex items-center gap-2"><span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-teal-500 to-cyan-600 text-white">✚</span> MedicoCare</a>
@@ -58,7 +57,7 @@
     </div>
   </section>
 
-  <!-- About with interactive 3D cube -->
+  <!-- About Section -->
   <section id="about" class="mx-auto container-2xl px-4 py-16">
     <div class="grid md:grid-cols-2 gap-8 items-center">
       <div>
@@ -141,104 +140,6 @@
   </footer>
 
 
-   <script src="three.js">
-  window.addEventListener('load', () => {
-    const loadScript = (src) => new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = src;
-      s.async = true;
-      s.crossOrigin = 'anonymous';
-      s.referrerPolicy = 'no-referrer';
-      s.onload = resolve;
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
-
-    (async () => {
-      if (!window.THREE) {
-        try { await loadScript('https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js'); } 
-        catch (e) { console.error('Failed to load three.js', e); }
-      }
-      if (window.THREE && !window.THREE.OrbitControls) {
-        try { await loadScript('https://cdn.jsdelivr.net/npm/three@0.161.0/examples/js/controls/OrbitControls.js'); } 
-        catch (e) { console.error('Failed to load OrbitControls', e); }
-      }
-      if (!window.THREE) {
-        console.error('THREE is not available. Check your network/CDN.');
-        return;
-      }
-
-      // Footer year
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      /* ===== HERO BACKGROUND (Particles + Starfield) ===== */
-      // ✅ (your existing Hero code – unchanged)
-      // ...
-
-      /* ===== ABOUT CUBE (Interactive) ===== */
-      const aboutCanvas = document.getElementById('aboutCanvas');
-      const aboutRenderer = new THREE.WebGLRenderer({ canvas: aboutCanvas, antialias: true, alpha: true });
-      aboutRenderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
-
-      const aboutScene = new THREE.Scene();
-      const aboutCamera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-      aboutCamera.position.set(2.2, 1.6, 2.2);
-
-      // Lights
-      aboutScene.add(new THREE.DirectionalLight(0xffffff, 1).position.set(3, 5, 4));
-      aboutScene.add(new THREE.AmbientLight(0xffffff, 0.5));
-
-      // Cube
-      const cube = new THREE.Mesh(
-        new THREE.BoxGeometry(1, 1, 1),
-        new THREE.MeshStandardMaterial({ color: 0x0ea5e9, roughness: 0.35, metalness: 0.2 })
-      );
-      aboutScene.add(cube);
-
-      // Wireframe sphere
-      const wireSphere = new THREE.Mesh(
-        new THREE.SphereGeometry(1.6, 24, 24),
-        new THREE.MeshBasicMaterial({ color: 0x22c55e, wireframe: true, transparent: true, opacity: 0.6 })
-      );
-      aboutScene.add(wireSphere);
-
-      // Controls
-      const controls = new THREE.OrbitControls(aboutCamera, aboutRenderer.domElement);
-      controls.enableDamping = true;
-      controls.enablePan = false;
-      controls.minDistance = 1.5;
-      controls.maxDistance = 5;
-      controls.target.set(0, 0, 0);
-
-      // Resize
-      const aboutSizer = new ResizeObserver(() => {
-        const rect = aboutCanvas.getBoundingClientRect();
-        aboutRenderer.setSize(rect.width, rect.height, false);
-        aboutCamera.aspect = rect.width / rect.height;
-        aboutCamera.updateProjectionMatrix();
-      });
-      aboutSizer.observe(aboutCanvas);
-
-      // Interactivity
-      let hover = false;
-      aboutCanvas.addEventListener("mouseenter", () => hover = true);
-      aboutCanvas.addEventListener("mouseleave", () => hover = false);
-      aboutCanvas.addEventListener("click", () => {
-        cube.material.color = new THREE.Color(`hsl(${Math.random() * 360}, 80%, 55%)`);
-      });
-
-      // Animation
-      function aboutAnimate() {
-        requestAnimationFrame(aboutAnimate);
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.012;
-        wireSphere.rotation.y -= 0.005;
-        wireSphere.rotation.x += 0.002;
-        cube.scale.setScalar(hover ? 1.06 : 1.0);
-        controls.update();
-        aboutRenderer.render(aboutScene, aboutCamera);
-      }
-      aboutAnimate();
-   </script>
+   <script src="three.js"> </script>
 </body>
 </html>
