@@ -28,6 +28,106 @@ window.addEventListener('load', () => {
 
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    /* ---------------- UX HELPERS (magnetic, reveal, tilt, cursor, blob) ---------------- */
+    // Magnetic hover
+    const makeMagnetic = (el, strength = 24) => {
+      let rect;
+      const onMove = (e) => {
+        rect = rect || el.getBoundingClientRect();
+        const mx = e.clientX - (rect.left + rect.width/2);
+        const my = e.clientY - (rect.top + rect.height/2);
+        el.style.transform = `translate(${mx/strength}px, ${my/strength}px)`;
+      };
+      const reset = () => { rect = null; el.style.transform = 'translate(0,0)'; };
+      el.addEventListener('mousemove', onMove);
+      el.addEventListener('mouseleave', reset);
+    };
+    document.querySelectorAll('.magnetic').forEach(el => makeMagnetic(el));
+
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('section h2, section p, .tilt-card, nav a, #ctaBtn').forEach(el => {
+      el.classList.add('reveal');
+      revealObserver.observe(el);
+    });
+
+    // Tilt cards with glare
+    const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
+    const addTilt = (card) => {
+      const maxTilt = 10;
+      const update = (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        const rx = clamp((0.5 - py) * (maxTilt * 2), -maxTilt, maxTilt);
+        const ry = clamp((px - 0.5) * (maxTilt * 2), -maxTilt, maxTilt);
+        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+        const glare = card.querySelector('.tilt-glare');
+        if (glare) {
+          glare.style.setProperty('--gx', `${px*100}%`);
+          glare.style.setProperty('--gy', `${py*100}%`);
+        }
+      };
+      const leave = () => { card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)'; };
+      card.addEventListener('mousemove', update);
+      card.addEventListener('mouseleave', leave);
+    };
+    document.querySelectorAll('.tilt-card').forEach(addTilt);
+
+    // Custom cursor
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorRing = document.getElementById('cursorRing');
+    if (cursorDot && cursorRing) {
+      let x = window.innerWidth/2, y = window.innerHeight/2;
+      let rx = x, ry = y;
+      const lerp = (a, b, t) => a + (b - a) * t;
+      const move = (e) => { x = e.clientX; y = e.clientY; };
+      window.addEventListener('mousemove', move, { passive: true });
+      const animateCursor = () => {
+        rx = lerp(rx, x, 0.24); ry = lerp(ry, y, 0.24);
+        cursorDot.style.transform = `translate(${x}px, ${y}px)`;
+        cursorRing.style.transform = `translate(${rx}px, ${ry}px)`;
+        requestAnimationFrame(animateCursor);
+      };
+      animateCursor();
+      const hoverables = 'a, button, .magnetic, .tilt-card';
+      document.querySelectorAll(hoverables).forEach(el => {
+        el.addEventListener('mouseenter', () => cursorRing.classList.add('is-hover'));
+        el.addEventListener('mouseleave', () => cursorRing.classList.remove('is-hover'));
+      });
+    }
+
+    // Hero animated gradient blob
+    const heroBlob = document.getElementById('heroBlob');
+    if (heroBlob) {
+      heroBlob.style.background = 'conic-gradient(from 0deg at 50% 50%, rgba(20,184,166,.9), rgba(34,197,94,.8), rgba(14,165,233,.8), rgba(20,184,166,.9))';
+      let angle = 0, t = 0;
+      const tick = () => {
+        angle += 0.15; t += 0.008;
+        const px = 50 + Math.sin(t) * 25;
+        const py = 50 + Math.cos(t*0.8) * 18;
+        heroBlob.style.background = `conic-gradient(from ${angle}deg at ${px}% ${py}%, rgba(20,184,166,.9), rgba(34,197,94,.75), rgba(14,165,233,.75), rgba(245,158,11,.7), rgba(20,184,166,.9))`;
+        requestAnimationFrame(tick);
+      };
+      tick();
+      const hero = document.getElementById('hero');
+      if (hero) {
+        hero.addEventListener('mousemove', (e) => {
+          const r = hero.getBoundingClientRect();
+          const nx = (e.clientX - r.left) / r.width;
+          const ny = (e.clientY - r.top) / r.height;
+          heroBlob.style.transform = `translate(${(nx-0.5)*20}px, ${(ny-0.5)*20}px)`;
+        });
+      }
+    }
+
     /* ---------------- HERO SECTION ---------------- */
     const heroCanvas = document.getElementById('heroCanvas');
     const heroRenderer = new THREE.WebGLRenderer({ canvas: heroCanvas, antialias: true, alpha: true });
