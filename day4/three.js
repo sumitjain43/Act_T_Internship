@@ -27,6 +27,7 @@ window.addEventListener('load', () => {
     }
 
     document.getElementById('year').textContent = new Date().getFullYear();
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     /* ---------------- HERO SECTION ---------------- */
     const heroCanvas = document.getElementById('heroCanvas');
@@ -82,16 +83,18 @@ window.addEventListener('load', () => {
     document.getElementById('ctaBtn').addEventListener('mouseleave', () => hoverBoost = 0);
 
     function heroAnimate() {
-      requestAnimationFrame(heroAnimate);
-      points.rotation.y += 0.002 + hoverBoost;
-      stars.rotation.y -= 0.0008;
-      points.rotation.x = mouse.y * 0.1;
-      heroCamera.position.x = mouse.x * 0.2;
-      heroCamera.position.y = mouse.y * 0.2;
-      heroCamera.lookAt(0, 0, 0);
+      if (!prefersReducedMotion) {
+        points.rotation.y += 0.002 + hoverBoost;
+        stars.rotation.y -= 0.0008;
+        points.rotation.x = mouse.y * 0.1;
+        heroCamera.position.x = mouse.x * 0.2;
+        heroCamera.position.y = mouse.y * 0.2;
+        heroCamera.lookAt(0, 0, 0);
+      }
       heroRenderer.render(heroScene, heroCamera);
+      requestAnimationFrame(heroAnimate);
     }
-    heroAnimate();
+    requestAnimationFrame(heroAnimate);
 
     /* ---------------- ABOUT SECTION ---------------- */
     const aboutCanvas = document.getElementById('aboutCanvas');
@@ -135,15 +138,17 @@ window.addEventListener('load', () => {
     });
 
     function aboutAnimate() {
-      requestAnimationFrame(aboutAnimate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.012;
-      wireSphere.rotation.y -= 0.005;
-      cube.scale.setScalar(hover ? 1.06 : 1.0);
+      if (!prefersReducedMotion) {
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.012;
+        wireSphere.rotation.y -= 0.005;
+        cube.scale.setScalar(hover ? 1.06 : 1.0);
+      }
       controls.update();
       aboutRenderer.render(aboutScene, aboutCamera);
+      requestAnimationFrame(aboutAnimate);
     }
-    aboutAnimate();
+    requestAnimationFrame(aboutAnimate);
 
     /* ---------------- FEATURES SECTION ---------------- */
     const featuresCanvas = document.getElementById('featuresCanvas');
@@ -176,13 +181,15 @@ window.addEventListener('load', () => {
     featuresSizer.observe(featuresCanvas);
 
     function featuresAnimate() {
-      requestAnimationFrame(featuresAnimate);
-      torus1.rotation.x += 0.005; torus1.rotation.y += 0.004;
-      torus2.rotation.x -= 0.004; torus2.rotation.y += 0.006;
-      torus3.rotation.x += 0.003; torus3.rotation.y -= 0.005;
+      if (!prefersReducedMotion) {
+        torus1.rotation.x += 0.005; torus1.rotation.y += 0.004;
+        torus2.rotation.x -= 0.004; torus2.rotation.y += 0.006;
+        torus3.rotation.x += 0.003; torus3.rotation.y -= 0.005;
+      }
       featuresRenderer.render(featuresScene, featuresCamera);
+      requestAnimationFrame(featuresAnimate);
     }
-    featuresAnimate();
+    requestAnimationFrame(featuresAnimate);
 
     /* ---------------- CONTACT SECTION ---------------- */
     const contactCanvas = document.getElementById('contactCanvas');
@@ -223,18 +230,80 @@ window.addEventListener('load', () => {
     });
 
     function contactAnimate() {
-      requestAnimationFrame(contactAnimate);
-      bubbles.forEach(b => {
-        b.position.x += b.userData.vx; b.position.y += b.userData.vy;
-        if (b.position.x > 4 || b.position.x < -4) b.userData.vx *= -1;
-        if (b.position.y > 2 || b.position.y < -2) b.userData.vy *= -1;
-        const dx = b.position.x - cMouse.x*2;
-        const dy = b.position.y - cMouse.y*1;
-        const dist2 = dx*dx + dy*dy;
-        if (dist2 < 0.3) { b.userData.vx += dx*0.002; b.userData.vy += dy*0.002; }
-      });
+      if (!prefersReducedMotion) {
+        bubbles.forEach(b => {
+          b.position.x += b.userData.vx; b.position.y += b.userData.vy;
+          if (b.position.x > 4 || b.position.x < -4) b.userData.vx *= -1;
+          if (b.position.y > 2 || b.position.y < -2) b.userData.vy *= -1;
+          const dx = b.position.x - cMouse.x*2;
+          const dy = b.position.y - cMouse.y*1;
+          const dist2 = dx*dx + dy*dy;
+          if (dist2 < 0.3) { b.userData.vx += dx*0.002; b.userData.vy += dy*0.002; }
+        });
+      }
       contactRenderer.render(contactScene, contactCamera);
+      requestAnimationFrame(contactAnimate);
     }
-    contactAnimate();
+    requestAnimationFrame(contactAnimate);
+
+    /* ---------------- MICROINTERACTIONS ---------------- */
+    // Reveal on scroll
+    const revealEls = Array.from(document.querySelectorAll('.reveal'));
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach((el) => revealObserver.observe(el));
+
+    // Magnetic button for CTA and any .magnetic
+    const magneticStrength = 18;
+    const magneticEls = Array.from(document.querySelectorAll('.magnetic'));
+    function handleMagneticMove(event) {
+      const target = event.currentTarget;
+      const inner = target.querySelector('span');
+      const rect = target.getBoundingClientRect();
+      const relX = event.clientX - rect.left - rect.width / 2;
+      const relY = event.clientY - rect.top - rect.height / 2;
+      const dx = relX / magneticStrength;
+      const dy = relY / magneticStrength;
+      if (inner) inner.style.transform = `translate(${dx}px, ${dy}px)`;
+    }
+    function handleMagneticLeave(event) {
+      const inner = event.currentTarget.querySelector('span');
+      if (inner) inner.style.transform = 'translate(0px, 0px)';
+    }
+    magneticEls.forEach((el) => {
+      el.addEventListener('mousemove', handleMagneticMove);
+      el.addEventListener('mouseleave', handleMagneticLeave);
+      el.addEventListener('touchend', handleMagneticLeave, { passive: true });
+    });
+
+    // Spotlight cursor over hero
+    const spotlight = document.querySelector('#hero .spotlight-mask');
+    const heroSection = document.getElementById('hero');
+    if (spotlight && heroSection) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const r = heroSection.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width) * 100;
+        const y = ((e.clientY - r.top) / r.height) * 100;
+        spotlight.style.setProperty('--mx', `${x}%`);
+        spotlight.style.setProperty('--my', `${y}%`);
+      });
+      heroSection.addEventListener('mouseleave', () => {
+        spotlight.style.setProperty('--mx', `50%`);
+        spotlight.style.setProperty('--my', `50%`);
+      });
+    }
+
+    // Marquee duplication to ensure seamless loop
+    const marqueeTrack = document.getElementById('marqueeTrack');
+    if (marqueeTrack) {
+      const clone = marqueeTrack.cloneNode(true);
+      marqueeTrack.parentElement.appendChild(clone);
+    }
   })();
 });
