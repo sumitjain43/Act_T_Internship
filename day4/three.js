@@ -236,5 +236,145 @@ window.addEventListener('load', () => {
       contactRenderer.render(contactScene, contactCamera);
     }
     contactAnimate();
+
+    /* ---------------- IGLOO-STYLE UI EFFECTS ---------------- */
+    // Cursor blob that follows pointer and grows over interactive elements
+    (function setupCursorBlob() {
+      const blob = document.getElementById('cursorBlob');
+      if (!blob) return;
+      let currentX = -9999;
+      let currentY = -9999;
+      let targetX = currentX;
+      let targetY = currentY;
+      let rafId = 0;
+      const followSpeed = 0.18;
+
+      function animate() {
+        currentX += (targetX - currentX) * followSpeed;
+        currentY += (targetY - currentY) * followSpeed;
+        const offsetX = currentX - blob.offsetWidth / 2;
+        const offsetY = currentY - blob.offsetHeight / 2;
+        blob.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        rafId = requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('pointermove', (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        if (!rafId) rafId = requestAnimationFrame(animate);
+      });
+      window.addEventListener('pointerenter', () => {
+        blob.style.opacity = '1';
+      });
+      window.addEventListener('pointerleave', () => {
+        blob.style.transform = 'translate(-9999px, -9999px)';
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      });
+
+      const growTargets = document.querySelectorAll('a, button, .magnetic, input, textarea, label');
+      growTargets.forEach((el) => {
+        el.addEventListener('mouseenter', () => blob.classList.add('grow'));
+        el.addEventListener('mouseleave', () => blob.classList.remove('grow'));
+      });
+    })();
+
+    // Magnetic hover for small UI elements
+    (function setupMagnetic() {
+      const magnets = document.querySelectorAll('.magnetic');
+      magnets.forEach((el) => {
+        const strength = 0.25; // px shift per px distance from center
+        function onMove(e) {
+          const rect = el.getBoundingClientRect();
+          const dx = e.clientX - (rect.left + rect.width / 2);
+          const dy = e.clientY - (rect.top + rect.height / 2);
+          el.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`;
+        }
+        function onLeave() {
+          el.style.transform = 'translate(0, 0)';
+        }
+        el.addEventListener('mousemove', onMove);
+        el.addEventListener('mouseleave', onLeave);
+      });
+    })();
+
+    // Tilt cards for feature items
+    (function setupTilt() {
+      const tilts = document.querySelectorAll('.tilt');
+      tilts.forEach((card) => {
+        const maxRotation = 8; // degrees
+        function onMove(e) {
+          const rect = card.getBoundingClientRect();
+          const px = (e.clientX - rect.left) / rect.width; // 0..1
+          const py = (e.clientY - rect.top) / rect.height; // 0..1
+          const rotateX = (py - 0.5) * -2 * maxRotation;
+          const rotateY = (px - 0.5) * 2 * maxRotation;
+          card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+        function onLeave() {
+          card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        }
+        card.addEventListener('mousemove', onMove);
+        card.addEventListener('mouseleave', onLeave);
+      });
+    })();
+
+    // Scroll reveal for elements with .reveal
+    (function setupReveal() {
+      const revealEls = document.querySelectorAll('.reveal');
+      if (!revealEls.length) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach((el) => io.observe(el));
+    })();
+
+    // Subtle parallax on background canvases
+    (function setupParallax() {
+      const items = [
+        { el: document.getElementById('heroCanvas'), factor: 0.05 },
+        { el: document.getElementById('featuresCanvas'), factor: 0.12 },
+        { el: document.getElementById('contactCanvas'), factor: 0.10 },
+      ];
+      function update() {
+        const vh = window.innerHeight;
+        items.forEach((it) => {
+          if (!it.el) return;
+          const rect = it.el.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
+          const delta = center - vh / 2;
+          const translateY = -delta * it.factor;
+          it.el.style.transform = `translateY(${translateY}px)`;
+        });
+        ticking = false;
+      }
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    // Make hero gradient react to pointer
+    (function setupHeroGradientFollow() {
+      const hero = document.getElementById('hero');
+      if (!hero) return;
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        hero.style.setProperty('--gx', `${x}%`);
+        hero.style.setProperty('--gy', `${y}%`);
+      });
+    })();
   })();
 });

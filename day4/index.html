@@ -29,17 +29,35 @@
     a, button { cursor: pointer; }
     .section-rel { position: relative; }
     .section-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    /* Igloo-style enhancements */
+    .cursor-blob { position: fixed; z-index: 50; top: 0; left: 0; width: 36px; height: 36px; border-radius: 9999px; pointer-events: none; background: radial-gradient(35% 35% at 30% 30%, rgba(34,197,94,0.9), rgba(13,148,136,0.85) 45%, rgba(8,145,178,0.8) 70%, rgba(8,145,178,0) 100%); mix-blend-mode: difference; transform: translate(-9999px,-9999px); transition: width 0.25s ease, height 0.25s ease, backdrop-filter 0.25s ease; }
+    .cursor-blob.grow { width: 64px; height: 64px; backdrop-filter: blur(1.5px); }
+    @media (pointer: coarse) { .cursor-blob { display: none; } }
+
+    .reveal { opacity: 0; transform: translateY(12px) scale(0.98); transition: opacity 600ms cubic-bezier(.2,.6,.2,1), transform 600ms cubic-bezier(.2,.6,.2,1); }
+    .reveal.show { opacity: 1; transform: none; }
+
+    .tilt { transform-style: preserve-3d; will-change: transform; transition: transform 300ms cubic-bezier(.2,.6,.2,1); }
+    .tilt:hover { transition-duration: 80ms; }
+
+    .magnetic { display: inline-block; will-change: transform; }
+
+    .hero-wrap::before { content: ""; position: absolute; inset: -15% -10% -10% -10%; z-index: 1; pointer-events: none; background: radial-gradient(600px 600px at var(--gx, 20%) var(--gy, 20%), rgba(125,211,252,0.35), transparent 60%), radial-gradient(500px 500px at 80% 30%, rgba(45,212,191,0.35), transparent 60%), radial-gradient(700px 700px at 50% 80%, rgba(250,204,21,0.25), transparent 60%); filter: blur(40px) saturate(1.1); animation: gradientShift 16s ease-in-out infinite alternate; }
+    @keyframes gradientShift { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(0,-2%,0) scale(1.02); } }
+
+    .hero-canvas, .section-canvas { will-change: transform; }
   </style>
 </head>
 <body class="bg-teal-50 text-slate-800">
+  <div id="cursorBlob" class="cursor-blob" aria-hidden="true"></div>
 
   <nav class="fixed top-0 left-0 right-0 z-30 shadow-md bg-teal-100 backdrop-blur-sm">
     <div class="mx-auto container-2xl px-4 py-4 flex items-center justify-between">
-      <a href="#" class="text-xl font-extrabold flex items-center gap-2"><span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-teal-500 to-cyan-600 text-white">✚</span> MedicoCare</a>
+      <a href="#" class="text-xl font-extrabold flex items-center gap-2 magnetic"><span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-teal-500 to-cyan-600 text-white">✚</span> MedicoCare</a>
       <nav class="hidden md:flex items-center gap-6 font-medium">
-        <a href="#about" class="hover:text-teal-600">About</a>
-        <a href="#features" class="hover:text-teal-600">Features</a>
-        <a href="#contact" class="hover:text-teal-600">Contact</a>
+        <a href="#about" class="hover:text-teal-600 magnetic">About</a>
+        <a href="#features" class="hover:text-teal-600 magnetic">Features</a>
+        <a href="#contact" class="hover:text-teal-600 magnetic">Contact</a>
       </nav>
     </div>
   </nav>
@@ -48,10 +66,10 @@
     <canvas id="heroCanvas" class="hero-canvas  "></canvas>
     <div class="relative  mx-auto container-2xl px-4 min-h-screen  flex items-center justify-center">
       <div class="text-center glass rounded-3xl px-6 py-10 shadow-soft max-w-2xl">
-        <h1 class="text-4xl md:text-6xl font-extrabold">Welcome to <span class="text-teal-600">MedicoCare</span></h1>
-        <p class="mt-4 text-lg md:text-xl text-slate-700">Smart Healthcare Management</p>
+        <h1 class="text-4xl md:text-6xl font-extrabold reveal">Welcome to <span class="text-teal-600">MedicoCare</span></h1>
+        <p class="mt-4 text-lg md:text-xl text-slate-700 reveal">Smart Healthcare Management</p>
         <div class="mt-6">
-          <a id="ctaBtn" href="#about" class="inline-block rounded-2xl bg-teal-600 px-6 py-3 text-white font-semibold hover:bg-teal-700 transition">Get Started</a>
+          <a id="ctaBtn" href="#about" class="inline-block rounded-2xl bg-teal-600 px-6 py-3 text-white font-semibold hover:bg-teal-700 transition magnetic">Get Started</a>
         </div>
       </div>
     </div>
@@ -61,12 +79,12 @@
   <section id="about" class="mx-auto container-2xl px-4 py-16">
     <div class="grid md:grid-cols-2 gap-8 items-center">
       <div>
-        <h2 class="text-2xl md:text-3xl font-extrabold">About MedicoCare</h2>
-        <p class="mt-3 text-slate-600">MedicoCare streamlines appointments, unifies patient data, and connects you with the right specialists. Built for speed, security, and great patient experience.</p>
+        <h2 class="text-2xl md:text-3xl font-extrabold reveal">About MedicoCare</h2>
+        <p class="mt-3 text-slate-600 reveal">MedicoCare streamlines appointments, unifies patient data, and connects you with the right specialists. Built for speed, security, and great patient experience.</p>
         <ul class="mt-4 list-disc list-inside text-slate-700">
-          <li>Book appointments in seconds</li>
-          <li>Manage records securely</li>
-          <li>Access care anywhere</li>
+          <li class="reveal">Book appointments in seconds</li>
+          <li class="reveal">Manage records securely</li>
+          <li class="reveal">Access care anywhere</li>
         </ul>
       </div>
       <div class="rounded-2xl bg-slate-50 p-4 shadow-soft">
@@ -79,19 +97,19 @@
   <!-- Features -->
   <section id="features" class="mx-auto container-2xl px-4 py-16 section-rel overflow-hidden">
     <canvas id="featuresCanvas" class="section-canvas"></canvas>
-    <h2 class="relative z-10 text-2xl md:text-3xl font-extrabold">Why Choose Us</h2>
+    <h2 class="relative z-10 text-2xl md:text-3xl font-extrabold reveal">Why Choose Us</h2>
     <div class="relative z-10 mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="rounded-2xl bg-white p-6 shadow-soft border border-slate-100">
+      <div class="rounded-2xl bg-white p-6 shadow-soft border border-slate-100 tilt reveal">
         <div class="text-3xl">⚡</div>
         <h3 class="mt-3 font-bold text-lg">Fast</h3>
         <p class="mt-1 text-slate-600">Optimized workflows and instant syncing for a snappy experience.</p>
       </div>
-      <div class="rounded-2xl bg-white p-6 shadow-soft border border-slate-100">
+      <div class="rounded-2xl bg-white p-6 shadow-soft border border-slate-100 tilt reveal">
         <div class="text-3xl">🔒</div>
         <h3 class="mt-3 font-bold text-lg">Secure</h3>
         <p class="mt-1 text-slate-600">Best-in-class security to keep your data private and protected.</p>
       </div>
-      <div class="rounded-2xl bg-white p-6 shadow-soft border border-slate-100">
+      <div class="rounded-2xl bg-white p-6 shadow-soft border border-slate-100 tilt reveal">
         <div class="text-3xl">📞</div>
         <h3 class="mt-3 font-bold text-lg">24/7 Support</h3>
         <p class="mt-1 text-slate-600">Get help anytime with our round-the-clock support team.</p>
@@ -103,10 +121,10 @@
   <section id="contact" class="mx-auto bg-teal-50 flex flex-col justify-center items-center container-2xl px-4 py-16 bg-slate-50 section-rel overflow-hidden">
     <canvas id="contactCanvas" class="section-canvas"></canvas>
     <div class="relative z-10 max-w-2xl">
-      <h2 class="text-2xl md:text-3xl font-extrabold">Contact Us</h2>
-      <p class="mt-2 text-slate-600">We'd love to hear from you.</p>
+      <h2 class="text-2xl md:text-3xl font-extrabold reveal">Contact Us</h2>
+      <p class="mt-2 text-slate-600 reveal">We'd love to hear from you.</p>
     </div>
-    <form class="relative z-10 mt-8 max-w-2xl rounded-2xl bg-white p-6 shadow-soft">
+    <form class="relative z-10 mt-8 max-w-2xl rounded-2xl bg-white p-6 shadow-soft reveal">
       <div class="grid md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium mb-1">Name</label>
@@ -122,7 +140,7 @@
         </div>
       </div>
       <div class="mt-4 justify-center items-center flex">
-        <button type="button" class="rounded-2xl bg-teal-600 px-6 py-3 font-semibold text-white hover:bg-teal-700">Submit</button>
+        <button type="button" class="rounded-2xl bg-teal-600 px-6 py-3 font-semibold text-white hover:bg-teal-700 magnetic">Submit</button>
       </div>
     </form>
   </section>
