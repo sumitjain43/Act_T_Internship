@@ -10,11 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E%E2%9C%9A%3C/text%3E%3C/svg%3E" />
-  <script src="https://cdn.tailwindcss.com"></script>  
 
-<script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
-<script src="https://unpkg.com/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
-
+  <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.152.2/examples/js/controls/OrbitControls.js"></script> 
 
   <style>
     :root { color-scheme: light; }
@@ -23,27 +21,15 @@
     .container-2xl { max-width: 1200px; }
     .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
     .hero-wrap { position: relative; min-height: 100vh; }
-    .hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
     .glass { background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); }
-    .about-canvas { width: 100%; height: 320px; display: block; border-radius: 1rem; }
     a, button { cursor: pointer; }
-    .section-rel { position: relative; }
-    .section-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   </style>
 </head>
-<<<<<<< HEAD
 
 <body class="bg-teal-50 text-slate-800 overflow-x-hidden">
-  <!-- Fullscreen 3D Canvas -->
   <canvas id="bgCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
 
-  <!-- Navigation -->
-  <nav class="fixed top-0 left-0 right-0 z-30 shadow-md bg-teal-200 backdrop-blur-sm">
-=======
-<body class="bg-teal-50 text-slate-800">
-
-  <nav class="fixed top-0 left-0 right-0 z-30 shadow-md bg-teal-100 backdrop-blur-sm">
->>>>>>> 6c36146123b165111ed90d6a7303ecc8290bf96d
+  <nav class="fixed top-0 left-0 right-0 z-30 shadow-sm bg-white/70 backdrop-blur-md">
     <div class="mx-auto container-2xl px-4 py-4 flex items-center justify-between">
       <a href="#" class="text-xl font-extrabold flex items-center gap-2">
         <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-teal-500 to-cyan-600 text-white">✚</span> MedicoCare
@@ -56,9 +42,8 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section id="hero" class="hero-wrap overflow-hidden min-h-screen flex items-center justify-center shadow-md">
-    <div class="text-center glass rounded-3xl px-6 py-10 shadow-soft max-w-2xl">
+  <section id="hero" class="hero-wrap overflow-hidden min-h-screen flex items-center justify-center">
+    <div class="text-center glass rounded-3xl px-8 py-12 shadow-soft max-w-2xl border border-white/80">
       <h1 class="text-4xl md:text-6xl font-extrabold">Welcome to <span class="text-teal-600">MedicoCare</span></h1>
       <p class="mt-4 text-lg md:text-xl text-slate-700">Smart Healthcare Management</p>
       <div class="mt-6">
@@ -67,66 +52,47 @@
     </div>
   </section>
 
-  <!-- About Section -->
-<<<<<<< HEAD
-  <section id="about" class="mx-auto container-2xl ring-1 shadow-lg  flex flex-col items-center justify-center px-4 py-16">
-    <div class="flex flex-col items-center justify-center max-w-3xl text-center shadow-lg ">
+  <section id="about" class="mx-auto container-2xl px-4 py-16">
+    <div class="flex flex-col items-center justify-center max-w-3xl text-center glass rounded-3xl p-8 ring-1 ring-slate-200 shadow-lg mx-auto">
       <h2 class="text-2xl md:text-3xl font-extrabold">About MedicoCare</h2>
       <p class="mt-3 text-slate-600">MedicoCare streamlines appointments, unifies patient data, and connects you with the right specialists. Built for speed, security, and great patient experience.</p>
-      <ul class="mt-4 list-disc list-inside text-slate-700">
+      <ul class="mt-4 list-disc list-inside text-slate-700 space-y-1 text-left">
         <li>Book appointments in seconds</li>
         <li>Manage records securely</li>
         <li>Access care anywhere</li>
       </ul>
-=======
-  <section id="about" class="mx-auto container-2xl px-4 py-16">
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-extrabold">About MedicoCare</h2>
-        <p class="mt-3 text-slate-600">MedicoCare streamlines appointments, unifies patient data, and connects you with the right specialists. Built for speed, security, and great patient experience.</p>
-        <ul class="mt-4 list-disc list-inside text-slate-700">
-          <li>Book appointments in seconds</li>
-          <li>Manage records securely</li>
-          <li>Access care anywhere</li>
-        </ul>
-      </div>
-      <div class="rounded-2xl bg-slate-50 p-4 shadow-soft">
-        <canvas id="aboutCanvas" class="about-canvas z-10"></canvas>
-        <p class="mt-3 text-sm text-slate-500">Tip: Drag to rotate. Click the cube to change color.</p>
-      </div>
->>>>>>> 6c36146123b165111ed90d6a7303ecc8290bf96d
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section id="features" class="mx-auto container-2xl ring-1 shadow-lg  px-4 py-16">
-    <h2 class="text-2xl md:text-3xl font-extrabold">Why Choose Us</h2>
-    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="rounded-2xl bg-white p-6 shadow-soft border border-slate-100">
-        <div class="text-3xl">⚡</div>
-        <h3 class="mt-3 font-bold text-lg">Fast</h3>
-        <p class="mt-1 text-slate-600">Optimized workflows and instant syncing for a snappy experience.</p>
-      </div>
-      <div class="rounded-2xl bg-white p-6 shadow-soft border border-slate-100">
-        <div class="text-3xl">🔒</div>
-        <h3 class="mt-3 font-bold text-lg">Secure</h3>
-        <p class="mt-1 text-slate-600">Best-in-class security to keep your data private and protected.</p>
-      </div>
-      <div class="rounded-2xl bg-white p-6 shadow-soft border border-slate-100">
-        <div class="text-3xl">📞</div>
-        <h3 class="mt-3 font-bold text-lg">24/7 Support</h3>
-        <p class="mt-1 text-slate-600">Get help anytime with our round-the-clock support team.</p>
+  <section id="features" class="mx-auto container-2xl px-4 py-16">
+    <div class="glass rounded-3xl p-8 ring-1 ring-slate-200 shadow-lg">
+      <h2 class="text-2xl md:text-3xl font-extrabold">Why Choose Us</h2>
+      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="rounded-2xl glass p-6 shadow-soft border border-slate-100">
+          <div class="text-3xl">⚡</div>
+          <h3 class="mt-3 font-bold text-lg">Fast</h3>
+          <p class="mt-1 text-slate-600">Optimized workflows and instant syncing for a snappy experience.</p>
+        </div>
+        <div class="rounded-2xl glass p-6 shadow-soft border border-slate-100">
+          <div class="text-3xl">🔒</div>
+          <h3 class="mt-3 font-bold text-lg">Secure</h3>
+          <p class="mt-1 text-slate-600">Best-in-class security to keep your data private and protected.</p>
+        </div>
+        <div class="rounded-2xl glass p-6 shadow-soft border border-slate-100">
+          <div class="text-3xl">📞</div>
+          <h3 class="mt-3 font-bold text-lg">24/7 Support</h3>
+          <p class="mt-1 text-slate-600">Get help anytime with our round-the-clock support team.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="mx-auto container-2xl ring-1 shadow-lg  px-4 py-16  ">
-   
-    <div class="flex flex-col items-center justify-center shadow-md order-slate-100">
-      <h2 class="text-2xl md:text-3xl font-extrabold">Contact Us</h2>
+  <section id="contact" class="mx-auto container-2xl px-4 py-16">
+    <div class="glass rounded-3xl p-8 ring-1 ring-slate-200 shadow-lg mx-auto max-w-3xl">
+      <div class="flex flex-col items-center justify-center">
+        <h2 class="text-2xl md:text-3xl font-extrabold">Contact Us</h2>
         <p class="mt-2 text-slate-600">We'd love to hear from you.</p>
-        <form class="mt-8 max-w-2xl rounded-2xl bg-white p-6 shadow-soft mb-2">
+        <form class="mt-8 w-full">
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium mb-1">Name</label>
@@ -142,15 +108,13 @@
             </div>
           </div>
           <div class="mt-4 justify-center items-center flex">
-            <button type="button" class="rounded-2xl bg-teal-600 px-6 py-3 font-semibold text-white hover:bg-teal-700">Submit</button>
+            <button type="button" class="rounded-2xl bg-teal-600 px-6 py-3 font-semibold text-white hover:bg-teal-700 transition">Submit</button>
           </div>
-    </form>
+        </form>
+      </div>
     </div>
-   
-    
   </section>
 
-  <!-- Footer -->
   <footer class="border-t bg-teal-100">
     <div class="mx-auto container-2xl px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-sm text-slate-600">© <span id="year"></span> MedicoCare. All rights reserved.</p>
@@ -161,120 +125,132 @@
       </div>
     </div>
   </footer>
-
-  <!-- Three.js Full-Body Animation -->
+  
   <script>
-  function initCanvas(canvasId, shapeCount=150){
-    const canvas = document.getElementById(canvasId);
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 500);
-    camera.position.z = 50;
-
-<<<<<<< HEAD
-    const renderer = new THREE.WebGLRenderer({canvas:canvas, alpha:true, antialias:true});
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0x888888,1.5);
-    scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0xffffff,2);
-    pointLight.position.set(50,50,50);
-    scene.add(pointLight);
-
-    const mouse = new THREE.Vector2();
-    document.addEventListener('mousemove', e=>{
-      mouse.x = (e.clientX/window.innerWidth)*2-1;
-      mouse.y = -(e.clientY/window.innerHeight)*2+1;
-    });
-
-    const raycaster = new THREE.Raycaster();
-
-    const geometries = [
-      new THREE.BoxGeometry(2,2,2),
-      new THREE.SphereGeometry(1.2,32,32),
-      new THREE.TetrahedronGeometry(1.5),
-      new THREE.ConeGeometry(1,2,4)
-    ];
-
-    const shapes = [];
-    for(let i=0;i<shapeCount;i++){
-      const geo = geometries[Math.floor(Math.random()*geometries.length)];
-      const mat = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(Math.random(),Math.random(),Math.random()),
-        metalness:0.6,
-        roughness:0.3
-      });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(
-        THREE.MathUtils.randFloatSpread(200),
-        THREE.MathUtils.randFloatSpread(120),
-        THREE.MathUtils.randFloatSpread(200)
-      );
-      mesh.userData = {
-        speedX:(Math.random()-0.5)*0.1,
-        speedY:(Math.random()-0.5)*0.1,
-        speedZ:(Math.random()-0.5)*0.1,
-        scaleFactor:0.5+Math.random(),
-        baseColor:mesh.material.color.clone()
-      };
-      mesh.scale.set(mesh.userData.scaleFactor,mesh.userData.scaleFactor,mesh.userData.scaleFactor);
-      scene.add(mesh);
-      shapes.push(mesh);
-    }
-
-    window.addEventListener('click',()=>{
-      raycaster.setFromCamera(mouse,camera);
-      const intersects = raycaster.intersectObjects(shapes);
-      intersects.forEach(obj=>{
-        obj.object.material.color.set(Math.random()*0xffffff);
-      });
-    });
-
-    function animate(){
-      requestAnimationFrame(animate);
-      raycaster.setFromCamera(mouse,camera);
-      const intersects = raycaster.intersectObjects(shapes);
-      shapes.forEach(shape=>{
-        shape.rotation.x += 0.01*shape.userData.scaleFactor;
-        shape.rotation.y += 0.01*shape.userData.scaleFactor;
-        shape.position.x += shape.userData.speedX + mouse.x*0.05;
-        shape.position.y += shape.userData.speedY + mouse.y*0.05;
-        shape.position.z += shape.userData.speedZ;
-
-        if(shape.position.x>100) shape.position.x=-100;
-        if(shape.position.x<-100) shape.position.x=100;
-        if(shape.position.y>60) shape.position.y=-60;
-        if(shape.position.y<-60) shape.position.y=60;
-        if(shape.position.z>100) shape.position.z=-100;
-        if(shape.position.z<-100) shape.position.z=100;
-
-        shape.scale.set(shape.userData.scaleFactor,shape.userData.scaleFactor,shape.userData.scaleFactor);
-        shape.material.color.copy(shape.userData.baseColor);
-      });
-
-      intersects.forEach(obj=>{
-        obj.object.scale.set(obj.object.userData.scaleFactor*1.5,obj.object.userData.scaleFactor*1.5,obj.object.userData.scaleFactor*1.5);
-        obj.object.material.color.set(Math.random()*0xffffff);
-      });
-
-      renderer.render(scene,camera);
-    }
-
-    animate();
-
-    window.addEventListener('resize',()=>{
-      camera.aspect = window.innerWidth/window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth,window.innerHeight);
-    });
-  }
-
-  initCanvas('bgCanvas',100);
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
-=======
-   <script src="three.js"> </script>
->>>>>>> 6c36146123b165111ed90d6a7303ecc8290bf96d
+
+  <script>
+    function initCanvas(canvasId, shapeCount=100){ // Reduced shapeCount for better performance
+      const canvas = document.getElementById(canvasId);
+      const scene = new THREE.Scene();
+      // Adjusted camera FOV slightly
+      const camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 0.1, 500); 
+      camera.position.z = 50;
+
+      const renderer = new THREE.WebGLRenderer({canvas:canvas, alpha:true, antialias:true});
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0x888888,1.5);
+      scene.add(ambientLight);
+      const pointLight = new THREE.PointLight(0xffffff,2);
+      pointLight.position.set(50,50,50);
+      scene.add(pointLight);
+
+      const mouse = new THREE.Vector2();
+      document.addEventListener('mousemove', e=>{
+        mouse.x = (e.clientX/window.innerWidth)*2-1;
+        mouse.y = -(e.clientY/window.innerHeight)*2+1;
+        // Subtle camera movement based on mouse
+        camera.position.x = mouse.x * 2;
+        camera.position.y = mouse.y * 1;
+      });
+
+      const raycaster = new THREE.Raycaster();
+
+      const geometries = [
+        new THREE.BoxGeometry(2,2,2),
+        new THREE.SphereGeometry(1.2,16,16), // Reduced segments for performance
+        new THREE.TetrahedronGeometry(1.5),
+        new THREE.TorusGeometry(1, 0.4, 8, 16) // Added a torus shape
+      ];
+
+      const shapes = [];
+      for(let i=0;i<shapeCount;i++){
+        const geo = geometries[Math.floor(Math.random()*geometries.length)];
+        const mat = new THREE.MeshStandardMaterial({
+          // Teal/Cyan color range
+          color: new THREE.Color(0.2 + Math.random()*0.2, 0.5 + Math.random()*0.5, 0.8 + Math.random()*0.2), 
+          metalness:0.6,
+          roughness:0.3,
+          wireframe: Math.random() < 0.1 // 10% chance of being wireframe
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(
+          THREE.MathUtils.randFloatSpread(200),
+          THREE.MathUtils.randFloatSpread(120),
+          THREE.MathUtils.randFloatSpread(200)
+        );
+        mesh.userData = {
+          speedX:(Math.random()-0.5)*0.08, // Reduced speed for gentler flow
+          speedY:(Math.random()-0.5)*0.08,
+          speedZ:(Math.random()-0.5)*0.08,
+          scaleFactor:0.5+Math.random(),
+          baseColor:mesh.material.color.clone()
+        };
+        mesh.scale.set(mesh.userData.scaleFactor,mesh.userData.scaleFactor,mesh.userData.scaleFactor);
+        scene.add(mesh);
+        shapes.push(mesh);
+      }
+
+      window.addEventListener('click',()=>{
+        raycaster.setFromCamera(mouse,camera);
+        const intersects = raycaster.intersectObjects(shapes);
+        intersects.forEach(obj=>{
+          obj.object.material.color.set(0xff0000); // Flash red on click
+        });
+      });
+
+      function animate(){
+        requestAnimationFrame(animate);
+        raycaster.setFromCamera(mouse,camera);
+        const intersects = raycaster.intersectObjects(shapes);
+        
+        shapes.forEach(shape=>{
+          // Continuous slow rotation
+          shape.rotation.x += 0.005;
+          shape.rotation.y += 0.005; 
+
+          // Movement
+          shape.position.x += shape.userData.speedX;
+          shape.position.y += shape.userData.speedY;
+          shape.position.z += shape.userData.speedZ;
+
+          // Wrap around logic
+          if(shape.position.x>100) shape.position.x=-100;
+          if(shape.position.x<-100) shape.position.x=100;
+          if(shape.position.y>60) shape.position.y=-60;
+          if(shape.position.y<-60) shape.position.y=60;
+          if(shape.position.z>100) shape.position.z=-100;
+          if(shape.position.z<-100) shape.position.z=100;
+
+          // Reset color/scale unless intersected
+          shape.scale.set(shape.userData.scaleFactor,shape.userData.scaleFactor,shape.userData.scaleFactor);
+          shape.material.color.copy(shape.userData.baseColor);
+        });
+
+        // Mouse hover interaction: Scale up and briefly change color
+        intersects.forEach(obj=>{
+          obj.object.scale.set(obj.object.userData.scaleFactor*1.5,obj.object.userData.scaleFactor*1.5,obj.object.userData.scaleFactor*1.5);
+          obj.object.material.color.set(0x00ffaa); // Bright teal on hover
+        });
+
+        renderer.render(scene,camera);
+      }
+
+      animate();
+
+      window.addEventListener('resize',()=>{
+        camera.aspect = window.innerWidth/window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth,window.innerHeight);
+      });
+    }
+
+    initCanvas('bgCanvas', 100);
+  </script>
 </body>
 
 </html>
